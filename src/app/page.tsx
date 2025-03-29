@@ -3,9 +3,9 @@ import { IProduct } from "./api/products/products.interface";
 
 export const dynamic = "force-dynamic";
 
-async function getData() {
+export async function getData() {
   try {
-    const res = await fetch(`http://localhost:3000/api/products`, {
+    const res = await fetch(`${process.env.BASE_URL}/api/products`, {
       next: { revalidate: 60 },
     });
 
@@ -30,14 +30,18 @@ export default async function Home() {
   const products = await getData();
   return (
     <section>
+      <h1>Products</h1>
       {products.length ? (
-        <ul>
+        <ul data-testid="product-list">
           {products.map((p: IProduct) => (
-            <li key={p.id}>
+            <li
+              key={p.id}
+              data-testid={`product-${p.id}`}
+            >
               <Link href={`/product/${p.id}`}>
                 <article>
-                  <h6>{p.name}</h6>
-                  <p>
+                  <h6 data-testid={`product-name-${p.name}`}>{p.name}</h6>
+                  <p data-testid={`product-price-${p.price}`}>
                     {p.price.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -49,7 +53,7 @@ export default async function Home() {
           ))}
         </ul>
       ) : (
-        <p>No products find</p>
+        <p data-testid="no-products">No products find</p>
       )}
     </section>
   );
