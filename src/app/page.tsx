@@ -3,7 +3,7 @@ import { IProduct } from "./api/products/products.interface";
 
 export const dynamic = "force-dynamic";
 
-export async function getData() {
+async function getData() {
   try {
     const res = await fetch(`${process.env.BASE_URL}/api/products`, {
       next: { revalidate: 60 },
