@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { IProduct } from "./api/products/products.interface";
+import Link from 'next/link';
+import { IProduct } from './api/products/products.interface';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 async function getData() {
   try {
@@ -10,7 +10,7 @@ async function getData() {
     });
 
     if (!res.ok) {
-      throw new Error("Erro ao buscar produtos");
+      throw new Error('Erro ao buscar produtos');
     }
 
     const products = await res.json();
@@ -21,7 +21,7 @@ async function getData() {
 
     return products;
   } catch (error) {
-    console.error("Erro ao buscar dados:", error);
+    console.error('Erro ao buscar dados:', error);
     return [];
   }
 }
@@ -30,21 +30,18 @@ export default async function Home() {
   const products = await getData();
   return (
     <section>
-      <h1>Products</h1>
+      <h1>Products list</h1>
       {products.length ? (
         <ul data-testid="product-list">
           {products.map((p: IProduct) => (
-            <li
-              key={p.id}
-              data-testid={`product-${p.id}`}
-            >
+            <li key={p.id} data-testid={`product-${p.id}`}>
               <Link href={`/product/${p.id}`}>
                 <article>
                   <h6 data-testid={`product-name-${p.name}`}>{p.name}</h6>
                   <p data-testid={`product-price-${p.price}`}>
-                    {p.price.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
+                    {p.price.toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
                     })}
                   </p>
                 </article>

@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import ProductStore from "../products.data";
+import ProductStore from '../products.data';
 
 const productStore = ProductStore;
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   try {
@@ -15,21 +15,21 @@ export async function GET(
   } catch (e) {
     return NextResponse.json(
       { error: { message: (e as { message: string }).message, status: 404 } },
-      { status: 404 }
+      { status: 404 },
     );
   }
 }
 
 export async function PUT(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const { name, price } = await req.json();
   if (!name || !price) {
     return NextResponse.json(
-      { massage: "Name and Price are required" },
-      { status: 400 }
+      { massage: 'Name and Price are required' },
+      { status: 400 },
     );
   }
   try {
@@ -46,7 +46,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   try {

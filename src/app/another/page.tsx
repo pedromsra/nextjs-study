@@ -1,3 +1,3 @@
-export default function Another () {
-    return <section>ANOTHER</section>
+export default function Another() {
+  return <section>ANOTHER</section>;
 }
