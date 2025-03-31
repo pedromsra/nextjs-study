@@ -1,0 +1,39 @@
+name: Project Structural Changes CI
+
+on:
+    pull_request:
+        branches: ["develop"]
+        paths:
+            - "package.json"
+            - "package-lock.json"
+            - ".github"
+            - ".husky"
+
+jobs:
+    warn:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Criar um issue de aviso
+              uses: actions/github-script@v6
+              with:
+                github-token: ${{secrets.GITHUB_TOKEN}}
+                script: |
+                  const {owner, repo} = context.repo;
+                  const issueTitle = "⚠️ Alteração crítica detectada"
+                  const issueBody = "Algum dos arquivos: package.json ou package-lock.json ou .github ou .husky foi alterado. Por favor, revise as mudanças."
+                  const {data: issues} = await github.rest.issues.listForRepo({
+                    owner,
+                    repo,
+                    state: "open",
+                    labels: "Critical files"
+                  })
+
+                  if (!issues.some(issue => issue.title === issueTitle)) {
+                    await github.rest.issues.create({
+                        owner,
+                        repo,
+                        title: issueTitle,
+                        body: issueBody,
+                        labels: ["Critital files"]
+                    })
+                  }
